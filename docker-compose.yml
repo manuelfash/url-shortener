@@ -9,6 +9,13 @@ services:
       - ./backend/.env
     depends_on:
       - db
+      - redis
+  
+  redis:
+   image: redis:7-alpine
+   container_name: redis_cache
+   volumes:
+    - redis_data:/data
 
   nginx:
     image: nginx:alpine
@@ -26,9 +33,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: urlshortener
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
+  redis_data:
